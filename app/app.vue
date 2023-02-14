@@ -1,49 +1,55 @@
 <template>
-  <div>
-    <!-- HELLO -->
-    <!-- <NuxtWelcome /> -->
-    <table class="t">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Date</th>
-          <th>Weekday</th>
-          <th>First</th>
-          <th>Last</th>
-          <th>Hours</th>
-          <th>Total</th>
-        </tr>
-      </thead>
-      <tbody>
-        <template v-for="employer in employers" :key="employer.name">
-          <tr v-for="(workday, index) in employer.workdays" :key="workday.date" :class="workday.total ? '' : 'bg-red-200'">
-            <td font-bold>{{ workday.name }}</td>
-            <td>{{ workday.date }}</td>
-            <td>{{ workday.weekday }}</td>
-            <td>{{ workday.first }}</td>
-            <td>{{ workday.last }}</td>
-            <td>{{ workday.total }}</td>
-            <td v-if="index == 0" :rowspan="employer.workdays?.length" text-center text="!xl" bg="#eee">
-              <div flex flex-col items-center justify-center gap-2>
-                <span font-bold>{{ workday.name }}</span>
-                <span>{{ employer.totalHours() }}</span>
-              </div>
-            </td>
-          </tr>
-        </template>
-        <!-- <tr >
-          <td>{{ employer.name }}</td>
-
-
-          <td>{{ employer.totalHours() }}</td>
-        </tr> -->
-      </tbody>
-    </table>
+  <div class="container">
+    <div grid grid-cols-2 gap-4>
+      <div text-center col-span-2 text-2xl font-bold mb-2 bg-emerald-700 rounded-xl py-4 px-8 flex justify-between text-white>
+        <span>Attendance</span>
+        <span>{{ startPeriod }} - {{ endPeriod }}</span>
+      </div>
+      <div v-for="employer in employers" :key="employer.name" flex flex-col gap-4 rounded-xl p-4 border-gray-300 border-1px border-solid>
+        <span font-bold text-center text-lg>{{ employer.name }}</span>
+        <table>
+          <thead bg-gray-100>
+            <tr text-xs text-left>
+              <th>#</th>
+              <th>Date</th>
+              <th>Weekday</th>
+              <th>In</th>
+              <th>Out</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(workday, index) in employer.workdays" :key="workday.date" text-xs>
+              <td>{{ index+ 1 }}</td>
+              <td>{{ workday.date }}</td>
+              <td>{{ workday.weekday }}</td>
+              <td :bg="workday.first == 'None' ? 'red-100' : ''">{{ workday.first }}</td>
+              <td :bg="workday.last == 'None' ? 'red-100' : ''">{{ workday.last }}</td>
+              <td>{{ workday.total }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div flex gap-2 justify-between text-sm flex-grow items-end>
+          <div flex bg-gray-100 py-2 px-4 rounded-lg gap-4 font-bold>
+            <span>Total Hours</span>
+            <span>{{ employer.totalHours() }}</span>
+          </div>
+          <div flex bg-gray-100 py-2 px-4 rounded-lg gap-4 font-bold>
+            <span>Total Days</span>
+            <span>{{ employer.workdays?.length }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup>
 import readXlsxFile from 'read-excel-file'
+import moment from 'moment'
+
+const startPeriod = ref('2023-02-01');
+const endPeriod = ref('2023-02-14');
 
 class WorkDay {
   constructor(name, date, weekday, first, last, total) {
@@ -69,12 +75,19 @@ class Employer {
       const [hours, minutes] = workday.total.split(':');
       total += parseInt(hours) + parseInt(minutes) / 60;
     });
-    return Math.round(total * 100) / 100;
+    return Math.round(total * 10) / 10;
   }
 
 }
 
 const employers = ref([])
+
+const timeFormat = (time) => {
+  if (time == 'None') return 'None';
+  let [hours, minutes] = time.split(':');
+  hours = parseInt(hours) - 6;
+  return moment(`${hours}:${minutes}`, 'HH:mm').format('hh:mm A');
+}
 
 fetch('tt.xlsx')
   .then(response => response.blob())
@@ -87,8 +100,8 @@ fetch('tt.xlsx')
       const name = row[1];
       const date = row[3];
       const weekday = row[4];
-      const first = row[5];
-      const last = row[6];
+      const first = timeFormat(row[5]);
+      const last = timeFormat(row[6]);
       const total = row[7];
 
       if (name == 'Ajjour' || name == 'Admin') return acc;
@@ -108,73 +121,17 @@ fetch('tt.xlsx')
 
 </script>
 
-
 <style>
-table.t {
-  border: 1px solid #1C6EA4;
-  background-color: #EEEEEE;
-  width: 100%;
-  text-align: left;
-  border-collapse: collapse;
-}
+@media print {
+  .container {
+    display: block;
+  }
 
-table.t td,
-table.t th {
-  border: 1px solid #AAAAAA;
-  padding: 3px 2px;
-}
+  /* this is key */
 
-table.t tbody td {
-  font-size: 13px;
-}
-
-/* table.t tr:nth-child(even) {
-  background: #D0E4F5;
-} */
-
-table.t thead {
-  background: #1C6EA4;
-  background: -moz-linear-gradient(top, #5592bb 0%, #327cad 66%, #1C6EA4 100%);
-  background: -webkit-linear-gradient(top, #5592bb 0%, #327cad 66%, #1C6EA4 100%);
-  background: linear-gradient(to bottom, #5592bb 0%, #327cad 66%, #1C6EA4 100%);
-  border-bottom: 2px solid #444444;
-}
-
-table.t thead th {
-  font-size: 15px;
-  font-weight: bold;
-  color: #FFFFFF;
-  border-left: 2px solid #D0E4F5;
-}
-
-table.t thead th:first-child {
-  border-left: none;
-}
-
-table.t tfoot {
-  font-size: 14px;
-  font-weight: bold;
-  color: #FFFFFF;
-  background: #D0E4F5;
-  background: -moz-linear-gradient(top, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
-  background: -webkit-linear-gradient(top, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
-  background: linear-gradient(to bottom, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
-  border-top: 2px solid #444444;
-}
-
-table.t tfoot td {
-  font-size: 14px;
-}
-
-table.t tfoot .links {
-  text-align: right;
-}
-
-table.t tfoot .links a {
-  display: inline-block;
-  background: #1C6EA4;
-  color: #FFFFFF;
-  padding: 2px 8px;
-  border-radius: 5px;
+  div,
+  p {
+    page-break-inside: avoid;
+  }
 }
 </style>
