@@ -4,6 +4,8 @@ import { config } from "./app/themeconfig/config";
 export default defineNuxtConfig({
     srcDir: "app/",
 
+    ssr: false,
+
     modules: [
         "nuxt-icon",
         "nuxt-headlessui",
