@@ -14,7 +14,7 @@
   },
   "devDependencies": {
     "electron": "^21.3.1",
-    "nuxt": "3.0.0"
+    "nuxt": "^3.2.0"
   },
   "dependencies": {
     "@nuxtjs/color-mode": "^3.2.0",
@@ -22,6 +22,7 @@
     "@unocss/nuxt": "^0.46.5",
     "@vueuse/nuxt": "^9.6.0",
     "nuxt-headlessui": "^1.0.4",
-    "nuxt-icon": "^0.1.7"
+    "nuxt-icon": "^0.1.7",
+    "read-excel-file": "^5.6.0"
   }
 }
