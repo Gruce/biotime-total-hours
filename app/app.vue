@@ -1,6 +1,10 @@
 <template>
-  <div class="container">
+  <div class="controller">
+    <button @click="downloadPdf">PDF</button>
+  </div>
+  <div ref="content" class="container">
     <div grid grid-cols-2 gap-4>
+      <!-- <img src="https://blendhouse-iq.com/wp-content/themes/blendhouse/images/logo.png" /> -->
       <div text-center col-span-2 text-2xl font-bold mb-2 bg-emerald-700 rounded-xl py-4 px-8 flex justify-between text-white>
         <span>Attendance</span>
         <span>{{ startPeriod }} - {{ endPeriod }}</span>
@@ -19,7 +23,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(workday, index) in employer.workdays" :key="workday.date" text-xs>
+            <tr v-for="(workday, index) in employer.workdays" :key="workday.date" text-12px>
               <td>{{ index+ 1 }}</td>
               <td>{{ workday.date }}</td>
               <td>{{ workday.weekday }}</td>
@@ -47,9 +51,11 @@
 <script setup>
 import readXlsxFile from 'read-excel-file'
 import moment from 'moment'
+import { exportToPDF } from '#imports'
 
-const startPeriod = ref('2023-02-01');
-const endPeriod = ref('2023-02-14');
+
+const startPeriod = ref('2023/02/01');
+const endPeriod = ref('2023/02/14');
 
 class WorkDay {
   constructor(name, date, weekday, first, last, total) {
@@ -60,6 +66,8 @@ class WorkDay {
     this.last = last;
     this.total = total;
   }
+
+
 }
 
 class Employer {
@@ -85,7 +93,7 @@ const employers = ref([])
 const timeFormat = (time) => {
   if (time == 'None') return 'None';
   let [hours, minutes] = time.split(':');
-  hours = parseInt(hours) - 6;
+  hours = parseInt(hours) - 7;
   return moment(`${hours}:${minutes}`, 'HH:mm').format('hh:mm A');
 }
 
@@ -105,6 +113,7 @@ fetch('tt.xlsx')
       const total = row[7];
 
       if (name == 'Ajjour' || name == 'Admin') return acc;
+      if (moment(endPeriod.value) < moment(date)) return acc;
 
       const workday = new WorkDay(name, date, weekday, first, last, total);
 
@@ -119,12 +128,21 @@ fetch('tt.xlsx')
 
   })
 
+
+const content = ref(null)
+
+const downloadPdf = async () => await exportToPDF('my-pdf-file.pdf', content)
+
 </script>
 
 <style>
 @media print {
   .container {
     display: block;
+  }
+
+  .controller {
+    display: none;
   }
 
   /* this is key */

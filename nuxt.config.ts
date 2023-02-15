@@ -7,6 +7,7 @@ export default defineNuxtConfig({
     ssr: false,
 
     modules: [
+        '@sidebase/nuxt-pdf',
         "nuxt-icon",
         "nuxt-headlessui",
         "@unocss/nuxt",
