@@ -7,7 +7,6 @@ export default defineNuxtConfig({
     ssr: false,
 
     modules: [
-        '@sidebase/nuxt-pdf',
         "nuxt-icon",
         "nuxt-headlessui",
         "@unocss/nuxt",
@@ -15,6 +14,13 @@ export default defineNuxtConfig({
         "@pinia/nuxt",
         "@nuxtjs/color-mode",
     ],
+
+    runtimeConfig: {
+        public: {
+            hoursCut: 7,
+            excludeNames: ["Ajjour", "Admin"],
+        }
+    },
 
     unocss: config,
 })
