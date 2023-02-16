@@ -2,12 +2,9 @@
   "private": true,
   "name": "biotime-total-hours",
   "version": "1.0.0",
-  "main": "dist-electron/main.js",
   "license": "MIT",
   "scripts": {
-    "start": "electron .",
-    "pack": "electron-builder --dir",
-    "build": "nuxt generate && electron-builder",
+    "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
@@ -16,7 +13,7 @@
   "devDependencies": {
     "electron": "^21.3.1",
     "electron-builder": "^23.6.0",
-    "nuxt": "^3.2.0"
+    "nuxt": "3.0.0"
   },
   "dependencies": {
     "@nuxtjs/color-mode": "^3.2.0",
@@ -26,13 +23,8 @@
     "moment": "^2.29.4",
     "nuxt-headlessui": "^1.0.4",
     "nuxt-icon": "^0.1.7",
-    "read-excel-file": "^5.6.0"
-  },
-  "build": {
-    "icon": "static/favicon.png",
-    "productName": "Nuxt and Electron App",
-    "win": {},
-    "linux": {},
-    "mac": {}
+    "pkg": "^5.8.0",
+    "read-excel-file": "^5.6.0",
+    "vercel": "^28.15.6"
   }
 }
