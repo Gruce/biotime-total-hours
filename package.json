@@ -3,17 +3,22 @@
   "name": "biotime-total-hours",
   "version": "1.0.0",
   "license": "MIT",
+  "description": "BioTime App",
+  "author": "Hassan K. Alkhalidi",
+  "main": "dist-electron/electron/main.js",
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
+    "electron:build": "nuxt generate && electron-builder",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
-    "electron": "^21.3.1",
+    "electron": "^23.1.1",
     "electron-builder": "^23.6.0",
-    "nuxt": "3.0.0"
+    "nuxt": "^3.2.2",
+    "vite-electron-plugin": "^0.8.2"
   },
   "dependencies": {
     "@nuxtjs/color-mode": "^3.2.0",
@@ -21,6 +26,7 @@
     "@unocss/nuxt": "^0.46.5",
     "@vueuse/nuxt": "^9.6.0",
     "moment": "^2.29.4",
+    "nuxt-electron": "^0.4.1",
     "nuxt-headlessui": "^1.0.4",
     "nuxt-icon": "^0.1.7",
     "pkg": "^5.8.0",

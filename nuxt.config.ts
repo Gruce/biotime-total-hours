@@ -1,10 +1,10 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-import { config } from "./app/themeconfig/config";
+import { config } from "./themeconfig/config";
 
 export default defineNuxtConfig({
-    srcDir: "app/",
 
     modules: [
+        "nuxt-electron",
         "nuxt-icon",
         "nuxt-headlessui",
         "@unocss/nuxt",
@@ -18,6 +18,10 @@ export default defineNuxtConfig({
             hoursCut: 7,
             excludeNames: ["Ajjour", "Admin"],
         }
+    },
+
+    electron: {
+        include: ["electron"],
     },
 
     unocss: config,
