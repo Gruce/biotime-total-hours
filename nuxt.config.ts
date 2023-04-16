@@ -2,9 +2,9 @@
 import { config } from "./themeconfig/config";
 
 export default defineNuxtConfig({
-
+    ssr: false,
     modules: [
-        "nuxt-electron",
+        // "nuxt-electron",
         "nuxt-icon",
         "nuxt-headlessui",
         "@unocss/nuxt",
@@ -20,9 +20,9 @@ export default defineNuxtConfig({
         }
     },
 
-    electron: {
-        include: ["electron"],
-    },
+    // electron: {
+    //     include: ["electron"],
+    // },
 
     unocss: config,
 })

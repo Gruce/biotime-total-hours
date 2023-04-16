@@ -20,8 +20,8 @@ export const useExcel = (data: any) => {
         const name = row[1];
         const date = row[3];
         const weekday = row[4];
-        const first = useTimeFormat(row[5]);
-        const last = useTimeFormat(row[6]);
+        const first = useTimeFormat(row[5], date, false);
+        const last = useTimeFormat(row[6], date, true);
         const total = row[7];
 
         if (excludeNames.includes(name)) return acc;
