@@ -15,7 +15,7 @@ export default defineNuxtConfig({
 
     runtimeConfig: {
         public: {
-            hoursCut: 7,
+            hoursCut: 0,
             excludeNames: ["Ajjour", "Admin"],
         }
     },

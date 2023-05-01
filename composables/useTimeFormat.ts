@@ -5,14 +5,10 @@ export const useTimeFormat = (time: any, date: any = null, out: boolean = false)
     const cutHours = parseInt(useRuntimeConfig().public.hoursCut);
     let [hours, minutes] = time.split(':');
 
-    if (!(moment(date).date() == 14 && out)) {
-        if (moment(date).date() < 15) {
-            if (parseInt(hours) - cutHours <= 0) {
-                hours = parseInt(hours) - cutHours + 24
-            } else {
-                hours = parseInt(hours) - cutHours;
-            }
-        }
+    if (parseInt(hours) - cutHours < 0) {
+        hours = parseInt(hours) - cutHours + 24
+    } else {
+        hours = parseInt(hours) - cutHours;
     }
 
 

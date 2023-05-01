@@ -9,7 +9,7 @@ export default class {
   totalHours() {
     let total = 0;
     this.workdays.forEach((workday) => {
-      if (moment(workday.date).date() == 14) return;
+      // if (moment(workday.date).date() == 14) return;
       if (!workday.total) return;
       const [hours, minutes] = workday.total.split(":");
       total += parseInt(hours) + parseInt(minutes) / 60;
