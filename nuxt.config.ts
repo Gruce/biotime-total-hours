@@ -17,6 +17,7 @@ export default defineNuxtConfig({
         public: {
             hoursCut: 0,
             excludeNames: ["Ajjour", "Admin"],
+            startHour: 6
         }
     },
 
